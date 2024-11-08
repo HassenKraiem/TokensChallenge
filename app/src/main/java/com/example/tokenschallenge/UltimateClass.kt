@@ -8,5 +8,4 @@ import kotlinx.serialization.Serializable
 data class UltimateClass(
     val user:User,
     val tokens: Tokens=Tokens()
-) {
-}
+)

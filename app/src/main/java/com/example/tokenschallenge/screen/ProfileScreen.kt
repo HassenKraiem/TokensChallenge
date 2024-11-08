@@ -14,27 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.tokenschallenge.UltimateClass
 import com.example.tokenschallenge.dataStore.DataStoreManager
-import com.example.tokenschallenge.ui.AppViewModel
 import kotlinx.coroutines.Job
 
 @Composable
 fun ProfileScreen(
-    /*token:String?,
-        status:String
-        appViewModel: AppViewModel,*/
-    dataStoreManager: DataStoreManager,
-    onLogout: () -> Job
+    dataStoreManager: DataStoreManager, onLogout: () -> Job
 ) {
-   // val uiState by appViewModel.uiState.collectAsState()
     val userDetails by dataStoreManager.getFromDataStore().collectAsState(initial = null)
     Column {
-        /*Text(
-            text = uiState.tokenInfo?.accessToken.orEmpty(),
-            fontSize = 39.sp
-        )*/
         Text(
             text = "Hi, ${"\nWelcome to your Profile "}",
             style = MaterialTheme.typography.headlineMedium,
@@ -55,48 +43,15 @@ fun ProfileScreen(
             text = "Id: ${userDetails?.user?.payload?.user?._id ?: ""}",
             style = MaterialTheme.typography.headlineSmall
         )
-
-
-
         Button(
             onClick = { onLogout() },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme.colorScheme.primary)
         ) {
             Text(
-                text = "Logout",
-                color = Color.White,
-                style = MaterialTheme.typography.labelLarge
+                text = "Logout", color = Color.White, style = MaterialTheme.typography.labelLarge
             )
         }
-        /*Text(
-            text = "FirstName:${uiState.userInfo?.payload?.user?.firstName}",
-            fontSize = 40.sp,
-            lineHeight = 70.sp
-        )
-        Text(
-            text = "LastName:${uiState.userInfo?.payload?.user?.lastName}",
-            fontSize = 40.sp,
-            lineHeight = 70.sp
-        )
-        Text(
-            text = "ID:${uiState.userInfo?.payload?.user?._id}".orEmpty(),
-            fontSize = 40.sp,
-            lineHeight = 70.sp
-        )
-        Text(
-            text = "Country:${uiState.userInfo?.payload?.user?.country}".orEmpty(),
-            fontSize = 40.sp,
-            lineHeight = 70.sp
-        )
-        Text(
-            text = "Status:${uiState.userInfo?.status}".orEmpty(),
-            fontSize = 45.sp,
-            lineHeight = 70.sp
-        )
-        Text(
-            text = "Phone:${uiState.userInfo?.payload?.user?.phone}"
-        )*/
 
     }
 }

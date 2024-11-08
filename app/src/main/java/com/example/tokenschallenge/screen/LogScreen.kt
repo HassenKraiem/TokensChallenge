@@ -12,7 +12,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +31,6 @@ import com.example.tokenschallenge.authorization.AuthRemoteDataSource
 import com.example.tokenschallenge.authorization.PostRequest
 import com.example.tokenschallenge.authorization.Tokens
 import com.example.tokenschallenge.dataStore.DataStoreManager
-import com.example.tokenschallenge.ui.AppViewModel
 import com.example.tokenschallenge.ui.theme.TokensChallengeTheme
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -54,8 +52,6 @@ import kotlinx.serialization.json.Json
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun LogScreen(
-    appViewModel: AppViewModel,
-   // navController: NavController,
     onRegisterSuccess: () -> Unit,
     dataStoreManager: DataStoreManager,
 ) {
@@ -74,13 +70,11 @@ fun LogScreen(
             sanitizeHeader { header -> header == HttpHeaders.Authorization }
         }
         install(ContentNegotiation) {
-            json(
-                json = Json {
-                    ignoreUnknownKeys = true
-                    prettyPrint = true
-                    isLenient = true
-                }
-            )
+            json(json = Json {
+                ignoreUnknownKeys = true
+                prettyPrint = true
+                isLenient = true
+            })
         }
         install(Auth) {
             bearer {
@@ -96,144 +90,73 @@ fun LogScreen(
         }
     }
 
-        val mContext = LocalContext.current
+    val mContext = LocalContext.current
 
-        val focusRequester1 = remember { FocusRequester() }
-        val focusRequester2 = remember { FocusRequester() }
+    val focusRequester1 = remember { FocusRequester() }
+    val focusRequester2 = remember { FocusRequester() }
 
-        val focusManager = LocalFocusManager.current
+    val focusManager = LocalFocusManager.current
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        TextField(value = phone, onValueChange = { phone = it }, label = {
+            Text(text = "phone")
+        }, keyboardActions = KeyboardActions(onNext = {
+            focusRequester2.requestFocus() // Move to next TextField
+        }), modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .focusRequester(focusRequester1)
+        )
+        TextField(value = password, onValueChange = { password = it }, label = {
+            Text(text = "password")
+        }, keyboardActions = KeyboardActions(onDone = {
+            focusManager.clearFocus() // Hide the keyboard
+        }), modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .focusRequester(focusRequester2)
+        )
+        var errorText by remember { mutableStateOf("") }
 
-        val uiState by appViewModel.uiState.collectAsState()
-
-        /*install(Auth){
-            basic {
-                credentials {
-                }
-            }
-        }*/
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            TextField(
-                value = phone,
-                onValueChange = { phone = it },
-                label = {
-                    Text(text = "phone")
-                },
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        focusRequester1.requestFocus() // Move to next TextField
-                    }
-                ),
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
-                    .focusRequester(focusRequester1)
-            )
-            TextField(
-                value = password,
-                onValueChange = { password = it },
-                label = {
-                    Text(text = "password")
-                },
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        focusRequester2.requestFocus() // Move to next TextField
-                    }
-                ),
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
-                    .focusRequester(focusRequester1)
-            )
-//        var interactionSource = remember { MutableInteractionSource() }
-//        val isPressedState by interactionSource.collectIsPressedAsState()
-//
-//        if (isPressedState) {
-//            LaunchedEffect(true) {
-//            }
-//        }
-            var errorText by remember { mutableStateOf("") }
-
-            Button(
-                onClick = {
-                    if (phone.isEmpty()) {
-                        Toast.makeText(mContext, "Phone number is Empty", Toast.LENGTH_SHORT).show()
-                    } else if (password.isEmpty()) {
-                        Toast.makeText(mContext, "Password is Empty", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        //Submit you data
-                        scope.launch {
-                            val postImplementation = AuthRemoteDataSource(client)
-                            val token = postImplementation.login(PostRequest(phone, password))
-                            val user = postImplementation.getUserInfo(PostRequest(phone, password))
-                            println("user is " + user)
-                            if (user != null) {
-                                dataStoreManager.saveToDataStore(
-                                    UltimateClass(
-                                        user = user,
-                                        tokens = token
-                                    )
+        Button(
+            onClick = {
+                if (phone.isEmpty()) {
+                    Toast.makeText(mContext, "Phone number is Empty", Toast.LENGTH_SHORT).show()
+                } else if (password.isEmpty()) {
+                    Toast.makeText(mContext, "Password is Empty", Toast.LENGTH_SHORT).show()
+                } else {
+                    //Submit you data
+                    scope.launch {
+                        val postImplementation = AuthRemoteDataSource(client)
+                        val token = postImplementation.login(PostRequest(phone, password))
+                        val user = postImplementation.getUserInfo(PostRequest(phone, password))
+                        // println("user is " + user)
+                        if (user != null) {
+                            dataStoreManager.saveToDataStore(
+                                UltimateClass(
+                                    user = user, tokens = token
                                 )
-                                onRegisterSuccess()
-                            } else {
-                                errorText = "sorry bb"
-                            }
+                            )
+                            onRegisterSuccess()
+                        } else {
+                            errorText = "Verify your phone number and your password"
                         }
                     }
-
-                }, modifier = Modifier.padding(16.dp)
-            ) {
-                Text("Submit")
-            }
-
-            Text(
-                text = errorText,
-                fontSize = 50.sp
-            )
-
-            /*  Button(
-            onClick = {
-                scope.launch {
-                    println("button clicked")
-                    appViewModel.takeDataToUi(
-                        client,
-                        postRequest = PostRequest(
-                            phone,
-                            password,
-                        )
-                    )
-                    delay(1100L)
-                    if (uiState.userInfo == null) {
-                        errorText = "Failed Please Check your number an password"
-
-                    } else {
-                        navController.navigate(
-                            ProfileScreen(/*token = uiState.tokenInfo?.accessToken,
-                        status = uiState.userInfo?.status?:""*/
-                            )
-                        )
-                    }
                 }
 
-            },
-//            interactionSource = interactionSource
+            }, modifier = Modifier.padding(16.dp)
         ) {
-            Text(
-                text = "LogIn"
-            )
+            Text("Submit")
         }
-
 
         Text(
-            text = "${uiState.userInfo?.status}".orEmpty()
-        )*/
-        }
+            text = errorText, fontSize = 25.sp
+        )
     }
+}
 
 
 @Preview(showBackground = true)
