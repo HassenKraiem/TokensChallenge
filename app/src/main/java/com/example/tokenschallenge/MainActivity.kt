@@ -7,21 +7,32 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.platform.LocalContext
 import com.example.tokenschallenge.dataStore.DataStoreManager
 import com.example.tokenschallenge.dataStore.preferenceData
+import com.example.tokenschallenge.di.Modules
 import com.example.tokenschallenge.screen.MainScreen
 import com.example.tokenschallenge.ui.theme.TokensChallengeTheme
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            startKoin {
+                androidLogger()
+                androidContext(this@MainActivity)
+                modules(
+                    Modules
+                )
+            }
             TokensChallengeTheme {
                 val dataStoreContext = LocalContext.current
                 val dataStoreManager = DataStoreManager(dataStoreContext)
                MainScreen(
                    mainActivity = this@MainActivity,
                    preferenceDataStore =preferenceData,
-                   dataStoreManager=dataStoreManager
+                   //dataStoreManager=dataStoreManager
                )
             }
         }

@@ -1,4 +1,4 @@
-package com.example.tokenschallenge.authorization
+package com.example.tokenschallenge.api
 
 import kotlinx.serialization.Serializable
 

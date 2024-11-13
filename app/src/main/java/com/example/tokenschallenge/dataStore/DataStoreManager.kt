@@ -7,7 +7,6 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.tokenschallenge.UltimateClass
-import com.example.tokenschallenge.authorization.Tokens
 import com.example.tokenschallenge.user.Payload
 import com.example.tokenschallenge.user.User
 import com.example.tokenschallenge.user.UserX
@@ -30,10 +29,34 @@ class DataStoreManager(private val context: Context) {
     suspend fun saveToDataStore(ultimateClass: UltimateClass) {
         context.preferenceData.edit {
             it[USER_ID] = ultimateClass.user.payload.user._id
-            it[ACCESS_TOKEN] = ultimateClass.tokens.accessToken
-            it[REFRESH_TOKEN] = ultimateClass.tokens.refreshToken
             it[USER_FIRST_NAME] = ultimateClass.user.payload.user.firstName
             it[USER_PHONE] = ultimateClass.user.payload.user.phone
+        }
+    }
+
+
+    suspend fun saveAccessToken(accessToken: String) {
+        context.preferenceData.edit {
+            it[ACCESS_TOKEN] = accessToken
+
+        }
+    }
+
+     fun getAccessToken()  =
+        context.preferenceData.data.map {
+            it[ACCESS_TOKEN] ?: ""
+        }
+
+    fun getRefreshToken()  =
+        context.preferenceData.data.map {
+            it[REFRESH_TOKEN] ?: ""
+        }
+
+
+    suspend fun saveRefreshToken(refreshToken: String) {
+        context.preferenceData.edit {
+            it[REFRESH_TOKEN] = refreshToken
+
         }
     }
 
@@ -48,10 +71,7 @@ class DataStoreManager(private val context: Context) {
 
                         )
                     )
-                ), tokens = Tokens(
-                accessToken = it[ACCESS_TOKEN] ?: "r", refreshToken = it[REFRESH_TOKEN] ?: "r"
-
-            )
+                ),
         )
     }
 

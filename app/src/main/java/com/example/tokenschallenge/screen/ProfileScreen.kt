@@ -10,18 +10,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.tokenschallenge.dataStore.DataStoreManager
-import kotlinx.coroutines.Job
+import com.example.tokenschallenge.ui.AppViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(
-    dataStoreManager: DataStoreManager, onLogout: () -> Job
+    /*dataStoreManager: DataStoreManager*/ appViewModel: AppViewModel
 ) {
-    val userDetails by dataStoreManager.getFromDataStore().collectAsState(initial = null)
+    //val userDetails by dataStoreManager.getFromDataStore().collectAsState(initial = null)
+    val uiState by appViewModel.uiState.collectAsState()
+    val scope= rememberCoroutineScope()
     Column {
         Text(
             text = "Hi, ${"\nWelcome to your Profile "}",
@@ -30,21 +34,21 @@ fun ProfileScreen(
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
         Text(
-            text = "Name: ${userDetails?.user?.payload?.user?.firstName ?: "hassen"}",
+            text = "Name:${uiState.name}",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineSmall
         )
         Text(
-            text = "Mobile: ${userDetails?.user?.payload?.user?.phone ?: ""}",
+            text = "Mobile: ${uiState.number}",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineSmall
         )
         Text(
-            text = "Id: ${userDetails?.user?.payload?.user?._id ?: ""}",
+            text = "Id: ${uiState.country}",
             style = MaterialTheme.typography.headlineSmall
         )
         Button(
-            onClick = { onLogout() },
+            onClick = { scope.launch {appViewModel.onLogout()} },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme.colorScheme.primary)
         ) {
