@@ -31,8 +31,9 @@ class ProfileViewModel(
                 dataStoreManager.saveUserInfoToDataStore(
                     user = user
                 )
+                takeDataToUi()
             }
-            takeDataToUi()
+
         }
     }
     private suspend fun takeDataToUi() {
