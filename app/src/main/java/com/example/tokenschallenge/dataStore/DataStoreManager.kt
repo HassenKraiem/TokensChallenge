@@ -3,6 +3,7 @@ package com.example.tokenschallenge.dataStore
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -23,7 +24,7 @@ class DataStoreManager(private val context: Context) {
         val USER_FIRST_NAME = stringPreferencesKey("USER_FIRST_NAME")
         val ACCESS_TOKEN = stringPreferencesKey("ACCESS_TOKEN")
         val REFRESH_TOKEN = stringPreferencesKey("REFRESH_TOKEN")
-
+        val IS_LOGGED_IN = booleanPreferencesKey("IS_LOGGED_IN")
     }
 
     suspend fun saveToDataStore(ultimateClass: UltimateClass) {
@@ -38,9 +39,14 @@ class DataStoreManager(private val context: Context) {
     suspend fun saveAccessToken(accessToken: String) {
         context.preferenceData.edit {
             it[ACCESS_TOKEN] = accessToken
+            it[IS_LOGGED_IN]=true
 
         }
     }
+    fun getIsLoggedIn()=
+        context.preferenceData.data.map {
+            it[IS_LOGGED_IN]?:false
+        }
 
      fun getAccessToken()  =
         context.preferenceData.data.map {
@@ -77,5 +83,7 @@ class DataStoreManager(private val context: Context) {
 
     suspend fun clearDataStore() = context.preferenceData.edit {
         it.clear()
+        it[IS_LOGGED_IN]=false
     }
+
 }

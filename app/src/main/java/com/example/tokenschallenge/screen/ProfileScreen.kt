@@ -16,22 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.tokenschallenge.dataStore.DataStoreManager
-import com.example.tokenschallenge.ui.AppViewModel
+import com.example.tokenschallenge.ui.ProfileViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(
-    /*dataStoreManager: DataStoreManager*/ appViewModel: AppViewModel
+   profileViewModel: ProfileViewModel,
+   logOut:()->Unit
 ) {
-    //val userDetails by dataStoreManager.getFromDataStore().collectAsState(initial = null)
-    val uiState by appViewModel.uiState.collectAsState()
+    val uiState by profileViewModel.logInUiState.collectAsState()
 
-    LaunchedEffect(Unit) {
-        if (uiState.isLoggedIn) {
-            appViewModel.getUserInfoToDataStore()
-        }
-    }
+
 
     val scope= rememberCoroutineScope()
     Column {
@@ -56,7 +51,7 @@ fun ProfileScreen(
             style = MaterialTheme.typography.headlineSmall
         )
         Button(
-            onClick = { scope.launch {appViewModel.onLogout()} },
+            onClick = {logOut()},
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme.colorScheme.primary)
         ) {

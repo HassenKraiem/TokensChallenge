@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.navigation.compose.rememberNavController
 import com.example.tokenschallenge.dataStore.preferenceData
 import com.example.tokenschallenge.di.Modules
 import com.example.tokenschallenge.screen.MainScreen
@@ -26,11 +27,13 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             TokensChallengeTheme {
+                val navController= rememberNavController()
                // val dataStoreContext = LocalContext.current
                // val dataStoreManager = DataStoreManager(dataStoreContext)
                MainScreen(
                    mainActivity = this@MainActivity,
                    preferenceDataStore =preferenceData,
+                   navController = navController
                    //dataStoreManager=dataStoreManager
                )
             }

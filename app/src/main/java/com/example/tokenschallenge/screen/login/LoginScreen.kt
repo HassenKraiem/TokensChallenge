@@ -26,7 +26,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tokenschallenge.ui.AppViewModel
+import com.example.tokenschallenge.ui.LogInViewModel
 import com.example.tokenschallenge.ui.theme.TokensChallengeTheme
 
 @SuppressLint("UnrememberedMutableState")
@@ -35,10 +35,11 @@ fun LoginScreen(
     /*dataStoreManager: DataStoreManager,
     authClient:HttpClient,
     noAuthClient:HttpClient,*/
-    appViewModel: AppViewModel,
+    logInViewModel: LogInViewModel,
+    logIn:()->Unit
 ) {
     //val userDetails by dataStoreManager.getFromDataStore().collectAsState(initial = null)
-    val uiState by appViewModel.uiState.collectAsState()
+    val uiState by logInViewModel.logInUiState.collectAsState()
 
 
 
@@ -88,10 +89,11 @@ fun LoginScreen(
                 } else if (password.isEmpty()) {
                     Toast.makeText(mContext, "Password is Empty", Toast.LENGTH_SHORT).show()
                 } else {
-                    appViewModel.login(
+                    logInViewModel.login(
                             phone = phone,
                             password = password,
                         )
+                    logIn()
 
                     }
 

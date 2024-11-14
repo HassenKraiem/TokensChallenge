@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UltimateClass(
-    val user:User = User.Default,
+    val user:User = User.Default
 )

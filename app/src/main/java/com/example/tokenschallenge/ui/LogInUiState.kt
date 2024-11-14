@@ -1,6 +1,6 @@
 package com.example.tokenschallenge.ui
 
-data class UiState(
+data class LogInUiState(
     val isLoggedIn:Boolean=false,
     val errorMessage:String="",
     val name:String="",
