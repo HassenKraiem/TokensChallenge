@@ -118,9 +118,6 @@ fun MainScreen(
         ProfileScreen(appViewModel)
     } else {
         LoginScreen(
-           /* dataStoreManager = dataStoreManager,
-            authClient = authClient,
-            noAuthClient = noAuthClient,*/
             appViewModel = appViewModel,
 
             )

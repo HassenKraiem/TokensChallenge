@@ -59,10 +59,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.ktor.client.android)
 
     implementation(libs.bundles.ktor)
     implementation (libs.navigation.compose)
-    implementation(libs.ktor.client.okhttp)
     implementation(libs.navigation.compose)
 
     implementation (libs.androidx.datastore.preferences)
@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.koin.androidx.compose)
 
     implementation(libs.androidx.benchmark.macro)
+    implementation("io.ktor:ktor-client-okhttp:3.0.0")
 
-    implementation ("com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava")
+    implementation (libs.listenablefuture)
 }

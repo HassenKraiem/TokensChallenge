@@ -7,5 +7,5 @@ import com.example.tokenschallenge.user.User
 
 interface Repository {
     suspend fun getUserInfo(dataStoreManager: DataStoreManager):User?
-    suspend fun login(postRequest: PostRequest): Tokens
+    suspend fun login(postRequest: PostRequest): Result<Tokens>
 }

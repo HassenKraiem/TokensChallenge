@@ -16,7 +16,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,13 +26,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.tokenschallenge.dataStore.DataStoreManager
 import com.example.tokenschallenge.ui.AppViewModel
 import com.example.tokenschallenge.ui.theme.TokensChallengeTheme
-import io.ktor.client.HttpClient
-import kotlinx.coroutines.launch
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -73,10 +67,13 @@ fun LoginScreen(
             .fillMaxWidth()
             .focusRequester(focusRequester1)
         )
-        TextField(value = password, onValueChange = { password = it }, label = {
+        TextField(value = password,
+            onValueChange = { password = it },
+            label = {
             Text(text = "password")
         },
-            keyboardActions = KeyboardActions(onDone = {
+            keyboardActions = KeyboardActions(
+                onDone = {
             focusManager.clearFocus() // Hide the keyboard
         }),
             modifier = Modifier
@@ -91,12 +88,11 @@ fun LoginScreen(
                 } else if (password.isEmpty()) {
                     Toast.makeText(mContext, "Password is Empty", Toast.LENGTH_SHORT).show()
                 } else {
-                        appViewModel.getTokensToDataStore(
+                    appViewModel.login(
                             phone = phone,
                             password = password,
                         )
-                       // delay(2000L)
-                        appViewModel.getUserInfoToDataStore()
+
                     }
 
             }, modifier = Modifier.padding(16.dp)

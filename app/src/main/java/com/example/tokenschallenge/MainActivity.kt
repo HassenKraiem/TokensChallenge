@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.platform.LocalContext
-import com.example.tokenschallenge.dataStore.DataStoreManager
 import com.example.tokenschallenge.dataStore.preferenceData
 import com.example.tokenschallenge.di.Modules
 import com.example.tokenschallenge.screen.MainScreen
@@ -16,19 +14,20 @@ import org.koin.core.context.startKoin
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        startKoin {
+            androidLogger()
+            androidContext(this@MainActivity)
+            modules(
+                Modules
+            )
+        }
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            startKoin {
-                androidLogger()
-                androidContext(this@MainActivity)
-                modules(
-                    Modules
-                )
-            }
+
             TokensChallengeTheme {
-                val dataStoreContext = LocalContext.current
-                val dataStoreManager = DataStoreManager(dataStoreContext)
+               // val dataStoreContext = LocalContext.current
+               // val dataStoreManager = DataStoreManager(dataStoreContext)
                MainScreen(
                    mainActivity = this@MainActivity,
                    preferenceDataStore =preferenceData,

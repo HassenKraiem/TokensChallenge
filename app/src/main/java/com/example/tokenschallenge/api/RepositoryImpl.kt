@@ -5,14 +5,16 @@ import com.example.tokenschallenge.domain.Repository
 import com.example.tokenschallenge.user.User
 
 class RepositoryImpl(
-    private val authRemoteDataSource:AuthRemoteDataSource,
-) : Repository{
+    private val authRemoteDataSource: AuthRemoteDataSource,
+) : Repository {
     override suspend fun getUserInfo(dataStoreManager: DataStoreManager): User? {
         return authRemoteDataSource.getUserInfo(
-            dataStoreManager =dataStoreManager )
+            dataStoreManager = dataStoreManager
+        )
     }
 
-    override suspend fun login(postRequest: PostRequest): Tokens {
-        return authRemoteDataSource.login(postRequest)
-    }
+    override suspend fun login(postRequest: PostRequest): Result<Tokens> =
+        kotlin.runCatching {
+            authRemoteDataSource.login(postRequest)
+        }
 }
