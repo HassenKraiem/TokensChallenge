@@ -6,8 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.tokenschallenge.screen.EnterScreen
 import com.example.tokenschallenge.screen.ProfileScreen
-import com.example.tokenschallenge.screen.login.LoginScreen
+import com.example.tokenschallenge.screen.LoginScreen
 import com.example.tokenschallenge.ui.AppViewModel
 import com.example.tokenschallenge.ui.LogInViewModel
 import com.example.tokenschallenge.ui.ProfileViewModel
@@ -19,12 +20,17 @@ fun AllNavigation(
     profileViewModel: ProfileViewModel,
     appViewModel: AppViewModel
 ) {
-    val uiState by appViewModel.logState.collectAsState()
     NavHost(
         navController = navController,
-        startDestination = if (uiState.isLoggedIn) Route.ProfileScreen
-        else Route.LogInScreen
+        startDestination = Route.EnterScreen
     ) {
+        composable<Route.EnterScreen> {
+            EnterScreen {
+                appViewModel.onEnter(
+                    navController = navController
+                )
+            }
+        }
         composable<Route.LogInScreen> {
             LoginScreen(
                 logInViewModel

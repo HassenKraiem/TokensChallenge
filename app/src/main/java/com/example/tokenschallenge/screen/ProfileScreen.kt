@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -21,7 +20,7 @@ import com.example.tokenschallenge.ui.ProfileViewModel
 fun ProfileScreen(
     profileViewModel: ProfileViewModel, logOut: () -> Unit
 ) {
-    val uiState by profileViewModel.profileUiState.collectAsState()
+    val profileUiState by profileViewModel.profileUiState.collectAsState()
     Column {
         Text(
             text = "Hi, ${"\nWelcome to your Profile "}",
@@ -30,17 +29,17 @@ fun ProfileScreen(
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
         Text(
-            text = "Name:${uiState.name}",
+            text = "Name:${profileUiState.name}",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineSmall
         )
         Text(
-            text = "Mobile: ${uiState.number}",
+            text = "Mobile: ${profileUiState.phone}",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.headlineSmall
         )
         Text(
-            text = "Id: ${uiState.country}", style = MaterialTheme.typography.headlineSmall
+            text = "Id: ${profileUiState.id}", style = MaterialTheme.typography.headlineSmall
         )
         Button(
             onClick = { logOut() },

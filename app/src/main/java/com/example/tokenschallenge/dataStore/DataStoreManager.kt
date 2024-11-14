@@ -7,7 +7,9 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.tokenschallenge.UltimateClass
+import com.example.tokenschallenge.user.Payload
+import com.example.tokenschallenge.user.User
+import com.example.tokenschallenge.user.UserX
 import kotlinx.coroutines.flow.map
 
 const val USER_DATASTORE = "user_data"
@@ -24,12 +26,24 @@ class DataStoreManager(private val context: Context) {
         val IS_LOGGED_IN = booleanPreferencesKey("IS_LOGGED_IN")
     }
 
-    suspend fun saveToDataStore(ultimateClass: UltimateClass) {
+    suspend fun saveUserInfoToDataStore(user: User) {
         context.preferenceData.edit {
-            it[USER_ID] = ultimateClass.user.payload.user._id
-            it[USER_FIRST_NAME] = ultimateClass.user.payload.user.firstName
-            it[USER_PHONE] = ultimateClass.user.payload.user.phone
+            it[USER_ID] =user.payload.user._id
+            it[USER_FIRST_NAME] =user.payload.user.firstName
+            it[USER_PHONE] =user.payload.user.phone
         }
+    }
+    fun getUSer()=context.preferenceData.data.map {
+           User.Default.copy(
+               payload = Payload(
+                   UserX(
+                       _id = it[USER_ID]?:"",
+                       phone = it[USER_PHONE]?:"",
+                       firstName = it[USER_FIRST_NAME]?:""
+
+                   )
+               )
+           )
     }
 
 
@@ -59,7 +73,6 @@ class DataStoreManager(private val context: Context) {
     suspend fun saveRefreshToken(refreshToken: String) {
         context.preferenceData.edit {
             it[REFRESH_TOKEN] = refreshToken
-
         }
     }
 

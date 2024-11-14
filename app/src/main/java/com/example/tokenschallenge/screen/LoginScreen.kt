@@ -1,4 +1,4 @@
-package com.example.tokenschallenge.screen.login
+package com.example.tokenschallenge.screen
 
 import android.annotation.SuppressLint
 import android.widget.Toast
@@ -35,7 +35,7 @@ fun LoginScreen(
     logInViewModel: LogInViewModel,
     logIn:()->Unit
 ) {
-    val uiState by logInViewModel.logInUiState.collectAsState()
+    val logInUiState by logInViewModel.logInUiState.collectAsState()
 
 
 
@@ -98,7 +98,7 @@ fun LoginScreen(
         }
 
         Text(
-            text = uiState.errorMessage, fontSize = 25.sp
+            text = logInUiState.errorMessage, fontSize = 25.sp
         )
     }
 }
