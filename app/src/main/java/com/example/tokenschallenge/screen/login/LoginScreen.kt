@@ -32,19 +32,15 @@ import com.example.tokenschallenge.ui.theme.TokensChallengeTheme
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun LoginScreen(
-    /*dataStoreManager: DataStoreManager,
-    authClient:HttpClient,
-    noAuthClient:HttpClient,*/
     logInViewModel: LogInViewModel,
     logIn:()->Unit
 ) {
-    //val userDetails by dataStoreManager.getFromDataStore().collectAsState(initial = null)
     val uiState by logInViewModel.logInUiState.collectAsState()
 
 
 
-    var phone by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("55529601") }
+    var password by remember { mutableStateOf("123456789") }
 
     val mContext = LocalContext.current
 
@@ -94,7 +90,6 @@ fun LoginScreen(
                             password = password,
                         )
                     logIn()
-
                     }
 
             }, modifier = Modifier.padding(16.dp)

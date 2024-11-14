@@ -31,12 +31,6 @@ val Modules = module {
     }
     single<HttpClient>(named("noAuthClient")) {
     HttpClient(OkHttp) {
-        /*engine {
-            // this: AndroidEngineConfig
-            connectTimeout = 100_000
-            socketTimeout = 100_000
-            proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress("https://api.lissene.com", 8080))
-        }*/
             install(Logging) {
                 logger = Logger.DEFAULT
                 level = LogLevel.HEADERS

@@ -8,9 +8,6 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.tokenschallenge.UltimateClass
-import com.example.tokenschallenge.user.Payload
-import com.example.tokenschallenge.user.User
-import com.example.tokenschallenge.user.UserX
 import kotlinx.coroutines.flow.map
 
 const val USER_DATASTORE = "user_data"
@@ -39,7 +36,7 @@ class DataStoreManager(private val context: Context) {
     suspend fun saveAccessToken(accessToken: String) {
         context.preferenceData.edit {
             it[ACCESS_TOKEN] = accessToken
-            it[IS_LOGGED_IN]=true
+                it[IS_LOGGED_IN] = true
 
         }
     }
@@ -64,21 +61,6 @@ class DataStoreManager(private val context: Context) {
             it[REFRESH_TOKEN] = refreshToken
 
         }
-    }
-
-    fun getFromDataStore() = context.preferenceData.data.map {
-        UltimateClass(
-            user = User.Default.copy(
-                    payload = Payload(
-                        UserX(
-                            _id = it[USER_ID] ?: "Hassen",
-                            firstName = it[USER_FIRST_NAME] ?: "Hassen",
-                            phone = it[USER_PHONE] ?: "58431128"
-
-                        )
-                    )
-                ),
-        )
     }
 
     suspend fun clearDataStore() = context.preferenceData.edit {

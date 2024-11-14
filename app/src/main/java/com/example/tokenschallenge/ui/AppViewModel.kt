@@ -1,12 +1,9 @@
 package com.example.tokenschallenge.ui
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tokenschallenge.dataStore.DataStoreManager
-import com.example.tokenschallenge.dataStore.DataStoreManager.Companion.ACCESS_TOKEN
-import com.example.tokenschallenge.domain.Repository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -28,19 +25,6 @@ private val dataStoreManager: DataStoreManager
             }
         }
     }
-    suspend fun checkRegisterState(
-        preferenceDataStore: DataStore<Preferences>
-    ) {
-        val preferences = preferenceDataStore.data.first()
-        val accessToken = preferences[ACCESS_TOKEN]
-        val isRegistered = accessToken != null
-        println("isRegistered:$isRegistered")
-        _logState.update { currentState ->
-            currentState.copy(
-                isLoggedIn = isRegistered
-            )
-        }
-    }
     fun onLogout() {
         viewModelScope.launch {
             dataStoreManager.clearDataStore()
@@ -53,10 +37,14 @@ private val dataStoreManager: DataStoreManager
         }
     }
     fun onLoggedIn() {
-        _logState.update { currentState ->
-            currentState.copy(
-                isLoggedIn = true
-            )
+        viewModelScope.launch {
+            delay(1000L)
+            if (dataStoreManager.getAccessToken().first()!="")
+                _logState.update { currentState ->
+                    currentState.copy(
+                        isLoggedIn = true
+                    )
+                }
         }
     }
 

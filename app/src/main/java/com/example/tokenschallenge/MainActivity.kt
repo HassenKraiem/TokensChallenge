@@ -32,7 +32,6 @@ class MainActivity : ComponentActivity() {
                // val dataStoreManager = DataStoreManager(dataStoreContext)
                MainScreen(
                    mainActivity = this@MainActivity,
-                   preferenceDataStore =preferenceData,
                    navController = navController
                    //dataStoreManager=dataStoreManager
                )

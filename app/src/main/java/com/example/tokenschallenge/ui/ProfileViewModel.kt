@@ -1,6 +1,5 @@
 package com.example.tokenschallenge.ui
 
-import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tokenschallenge.UltimateClass
@@ -22,13 +21,13 @@ class ProfileViewModel(
         getUserInfoToDataStore()
         }
 
-    private val _profile_uiState = MutableStateFlow(LogInUiState())
-    val logInUiState: StateFlow<LogInUiState> = _profile_uiState.asStateFlow()
+    private val _profileUiState = MutableStateFlow(ProfileUiState())
+    val profileUiState: StateFlow<ProfileUiState> = _profileUiState.asStateFlow()
 
     private fun getUserInfoToDataStore(
     ) {
         viewModelScope.launch {
-            val user = repository.getUserInfo(dataStoreManager)
+            val user = repository.getUserInfo()
             if (user != null) {
                 dataStoreManager.saveToDataStore(
                     UltimateClass(
@@ -39,10 +38,8 @@ class ProfileViewModel(
             takeDataToUi()
         }
     }
-
-
     private suspend fun takeDataToUi() {
-        _profile_uiState.update { currentState ->
+        _profileUiState.update { currentState ->
             currentState.copy(
                 name = dataStoreManager.getAccessToken().first(),
                 country = dataStoreManager.getRefreshToken().first()
