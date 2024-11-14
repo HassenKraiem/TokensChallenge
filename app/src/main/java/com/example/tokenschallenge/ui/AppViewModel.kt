@@ -25,7 +25,7 @@ private val dataStoreManager: DataStoreManager
             }
         }
     }
-    fun onLogout() {
+    fun onLogout(navController: NavController) {
         viewModelScope.launch {
             dataStoreManager.clearDataStore()
             _appState.update { currentState ->
@@ -33,18 +33,22 @@ private val dataStoreManager: DataStoreManager
                     isLoggedIn = false
                 )
             }
+            navController.navigate(Route.LogInScreen)
+
 
         }
     }
-    fun onLoggedIn() {
+    fun onLoggedIn(navController: NavController) {
         viewModelScope.launch {
-            delay(1000L)
-            if (dataStoreManager.getAccessToken().first()!="")
+            delay(2000L)
+            if (dataStoreManager.getAccessToken().first()!="") {
                 _appState.update { currentState ->
                     currentState.copy(
                         isLoggedIn = true
                     )
                 }
+                navController.navigate(Route.ProfileScreen)
+            }
         }
     }
     fun onEnter(navController: NavController){

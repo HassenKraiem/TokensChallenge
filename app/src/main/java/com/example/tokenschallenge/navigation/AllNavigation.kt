@@ -34,13 +34,17 @@ fun AllNavigation(
         composable<Route.LogInScreen> {
             LoginScreen(
                 logInViewModel
-            ) { appViewModel.onLoggedIn() }
+            ) { appViewModel.onLoggedIn(navController) }
         }
 
         composable<Route.ProfileScreen> {
             ProfileScreen(
                 profileViewModel
-            ) { appViewModel.onLogout() }
+            ) {
+                appViewModel.onLogout(
+                    navController = navController
+                )
+            }
         }
     }
 

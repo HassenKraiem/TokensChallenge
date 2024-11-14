@@ -16,14 +16,14 @@ class ProfileViewModel(
     private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
 
-    init {
+    /*init {
         getProfile()
-        }
+        }*/
 
     private val _profileUiState = MutableStateFlow(ProfileUiState())
     val profileUiState: StateFlow<ProfileUiState> = _profileUiState.asStateFlow()
 
-    private fun getProfile(
+    fun getProfile(
     ) {
         viewModelScope.launch {
             val user = repository.getUserInfo()

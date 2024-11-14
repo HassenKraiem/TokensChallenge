@@ -8,6 +8,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -21,6 +22,9 @@ fun ProfileScreen(
     profileViewModel: ProfileViewModel, logOut: () -> Unit
 ) {
     val profileUiState by profileViewModel.profileUiState.collectAsState()
+    LaunchedEffect(Unit) {
+        profileViewModel.getProfile()
+    }
     Column {
         Text(
             text = "Hi, ${"\nWelcome to your Profile "}",
