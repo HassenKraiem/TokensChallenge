@@ -1,4 +1,4 @@
-package com.example.tokenschallenge.screen
+package com.example.tokenschallenge.screen.profile
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.tokenschallenge.ui.ProfileViewModel
 
 @Composable
 fun ProfileScreen(

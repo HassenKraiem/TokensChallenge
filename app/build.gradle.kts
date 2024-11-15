@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -39,6 +40,12 @@ android {
         compose = true
     }
 }
+ksp {
+    //arg("KOIN_USE_COMPOSE_VIEWMODEL","true")
+    arg("KOIN_CONFIG_CHECK","true")
+    //arg("KOIN_DEFAULT_MODULE","false")
+}
+
 
 dependencies {
 
@@ -77,4 +84,11 @@ dependencies {
     implementation("io.ktor:ktor-client-okhttp:3.0.0")
 
     implementation (libs.listenablefuture)
+
+    api(libs.koin.annotations)
+    implementation(libs.koin.annotations)
+   // ksp(libs.koin.ksp)
+    ksp(libs.koin.ksp)
+    implementation("com.google.devtools.ksp:symbol-processing-api:2.0.21-1.0.25")
+
 }

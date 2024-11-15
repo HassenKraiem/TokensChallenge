@@ -1,4 +1,4 @@
-package com.example.tokenschallenge.screen
+package com.example.tokenschallenge.screen.login
 
 import android.annotation.SuppressLint
 import android.widget.Toast
@@ -26,7 +26,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tokenschallenge.ui.LogInViewModel
 import com.example.tokenschallenge.ui.theme.TokensChallengeTheme
 
 @SuppressLint("UnrememberedMutableState")

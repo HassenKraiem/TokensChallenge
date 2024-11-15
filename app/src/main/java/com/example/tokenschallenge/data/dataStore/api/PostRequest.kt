@@ -1,4 +1,4 @@
-package com.example.tokenschallenge.api
+package com.example.tokenschallenge.data.dataStore.api
 
 import kotlinx.serialization.Serializable
 

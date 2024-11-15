@@ -1,12 +1,11 @@
-package com.example.tokenschallenge.screen
+package com.example.tokenschallenge.screen.main
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import com.example.tokenschallenge.MainActivity
+import com.example.tokenschallenge.mainActivity.MainActivity
 import com.example.tokenschallenge.navigation.AllNavigation
-import com.example.tokenschallenge.ui.AppViewModel
-import com.example.tokenschallenge.ui.LogInViewModel
-import com.example.tokenschallenge.ui.ProfileViewModel
+import com.example.tokenschallenge.screen.login.LogInViewModel
+import com.example.tokenschallenge.screen.profile.ProfileViewModel
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
 
@@ -19,8 +18,8 @@ class RefreshRequest(
 fun MainScreen(
     mainActivity: MainActivity,
     logInViewModel: LogInViewModel = koinViewModel(),
-    profileViewModel: ProfileViewModel= koinViewModel(),
-    appViewModel: AppViewModel= koinViewModel(),
+    profileViewModel: ProfileViewModel = koinViewModel(),
+    appViewModel: AppViewModel = koinViewModel(),
     navController: NavHostController
 ) {
     AllNavigation(navController =navController,

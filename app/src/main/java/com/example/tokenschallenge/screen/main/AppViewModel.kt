@@ -1,18 +1,22 @@
-package com.example.tokenschallenge.ui
+package com.example.tokenschallenge.screen.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.example.tokenschallenge.dataStore.DataStoreManager
+import com.example.tokenschallenge.data.dataStore.DataStoreManager
 import com.example.tokenschallenge.navigation.Route
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.Provided
 
+
+@KoinViewModel
 class AppViewModel (
-private val dataStoreManager: DataStoreManager
+@Provided private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
     private val _appState=MutableStateFlow(AppState())
 

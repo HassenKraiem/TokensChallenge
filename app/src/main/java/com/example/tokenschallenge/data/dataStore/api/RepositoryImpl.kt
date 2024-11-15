@@ -1,10 +1,13 @@
-package com.example.tokenschallenge.api
+package com.example.tokenschallenge.data.dataStore.api
 
-import com.example.tokenschallenge.domain.Repository
+import com.example.tokenschallenge.data.domain.Repository
 import com.example.tokenschallenge.user.User
+import org.koin.core.annotation.Provided
+import org.koin.core.annotation.Single
 
+@Single
 class RepositoryImpl(
-    private val authRemoteDataSource: AuthRemoteDataSource,
+    @Provided private val authRemoteDataSource: AuthRemoteDataSource,
 ) : Repository {
     override suspend fun getUserInfo(): User? {
         return authRemoteDataSource.getUserInfo()

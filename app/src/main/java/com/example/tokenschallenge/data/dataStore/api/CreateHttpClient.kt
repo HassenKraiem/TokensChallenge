@@ -1,7 +1,7 @@
-package com.example.tokenschallenge.api
+package com.example.tokenschallenge.data.dataStore.api
 
-import com.example.tokenschallenge.dataStore.DataStoreManager
-import com.example.tokenschallenge.screen.RefreshRequest
+import com.example.tokenschallenge.data.dataStore.DataStoreManager
+import com.example.tokenschallenge.screen.main.RefreshRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -23,9 +23,12 @@ import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
+import org.koin.core.annotation.Provided
+import org.koin.core.annotation.Single
 
+@Single
 fun createAutHttpClient(
-    dataStoreManager: DataStoreManager
+    @Provided dataStoreManager: DataStoreManager
 ): HttpClient {
     return HttpClient(OkHttp) {
         install(Logging) {

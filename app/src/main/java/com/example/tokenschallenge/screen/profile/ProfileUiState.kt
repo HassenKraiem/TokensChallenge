@@ -1,4 +1,4 @@
-package com.example.tokenschallenge.ui
+package com.example.tokenschallenge.screen.profile
 
 data class ProfileUiState(
     val country:String="",

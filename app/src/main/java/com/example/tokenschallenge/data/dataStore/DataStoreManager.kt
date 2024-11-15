@@ -1,4 +1,4 @@
-package com.example.tokenschallenge.dataStore
+package com.example.tokenschallenge.data.dataStore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -11,12 +11,14 @@ import com.example.tokenschallenge.user.Payload
 import com.example.tokenschallenge.user.User
 import com.example.tokenschallenge.user.UserX
 import kotlinx.coroutines.flow.map
+import org.koin.core.annotation.Provided
+import org.koin.core.annotation.Single
 
 const val USER_DATASTORE = "user_data"
 
 val Context.preferenceData: DataStore<Preferences> by preferencesDataStore(name = USER_DATASTORE)
-
-class DataStoreManager(private val context: Context) {
+@Single
+class DataStoreManager(@Provided private val context: Context) {
     companion object {
         val USER_ID = stringPreferencesKey("USER_ID")
         val USER_PHONE = stringPreferencesKey("USER_PHONE")

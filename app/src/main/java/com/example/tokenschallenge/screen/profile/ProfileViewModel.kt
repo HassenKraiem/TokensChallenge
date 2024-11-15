@@ -1,19 +1,23 @@
-package com.example.tokenschallenge.ui
+package com.example.tokenschallenge.screen.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tokenschallenge.dataStore.DataStoreManager
-import com.example.tokenschallenge.domain.Repository
+import com.example.tokenschallenge.data.dataStore.DataStoreManager
+import com.example.tokenschallenge.data.domain.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.Provided
 
+
+@KoinViewModel
 class ProfileViewModel(
-    private val repository: Repository,
-    private val dataStoreManager: DataStoreManager
+    @Provided private val repository: Repository,
+    @Provided private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
 
     /*init {

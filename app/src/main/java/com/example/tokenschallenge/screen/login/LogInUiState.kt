@@ -1,4 +1,4 @@
-package com.example.tokenschallenge.ui
+package com.example.tokenschallenge.screen.login
 
 data class LogInUiState(
     val errorMessage:String="",

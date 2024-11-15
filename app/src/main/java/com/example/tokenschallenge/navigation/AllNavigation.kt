@@ -1,17 +1,15 @@
 package com.example.tokenschallenge.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.tokenschallenge.screen.EnterScreen
-import com.example.tokenschallenge.screen.ProfileScreen
-import com.example.tokenschallenge.screen.LoginScreen
-import com.example.tokenschallenge.ui.AppViewModel
-import com.example.tokenschallenge.ui.LogInViewModel
-import com.example.tokenschallenge.ui.ProfileViewModel
+import com.example.tokenschallenge.screen.profile.ProfileScreen
+import com.example.tokenschallenge.screen.login.LoginScreen
+import com.example.tokenschallenge.screen.main.AppViewModel
+import com.example.tokenschallenge.screen.login.LogInViewModel
+import com.example.tokenschallenge.screen.profile.ProfileViewModel
 
 @Composable
 fun AllNavigation(
