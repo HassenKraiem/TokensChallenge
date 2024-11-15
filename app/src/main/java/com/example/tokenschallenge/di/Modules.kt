@@ -165,7 +165,7 @@ fun createAutHttpClient(
     @ComponentScan("com.example.tokenschallenge.screen")
     class ViewModelModelModule
 
-    fun initKoin() {
+   /* fun initKoin() {
         startKoin {
             module {
                 DataStoreModule().module
