@@ -72,7 +72,7 @@ class ApiModule{
     }
 }
 
-@Single
+/*@Single
 @Named("authHttpClient")
 fun createAutHttpClient(
     @Provided dataStoreManager: DataStoreManager
@@ -129,7 +129,7 @@ fun createAutHttpClient(
             }
         }
     }
-}
+}*/
 
 /*val apiModule = module {
     /*single<HttpClient>(named("noAuthClient")) {
