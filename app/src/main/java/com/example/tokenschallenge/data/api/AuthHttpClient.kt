@@ -1,4 +1,4 @@
-package com.example.tokenschallenge.data.dataStore.api
+package com.example.tokenschallenge.data.api
 
 import com.example.tokenschallenge.data.dataStore.DataStoreManager
 import com.example.tokenschallenge.screen.main.RefreshRequest
@@ -23,12 +23,15 @@ import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
-import org.koin.core.annotation.Provided
+import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
+
+const val AuthHttpClient = "authHttpClient"
 @Single
+@Named(AuthHttpClient)
 fun createAutHttpClient(
-    @Provided dataStoreManager: DataStoreManager
+    dataStoreManager: DataStoreManager
 ): HttpClient {
     return HttpClient(OkHttp) {
         install(Logging) {
@@ -55,14 +58,14 @@ fun createAutHttpClient(
                 refreshTokens {
 
                     val response =
-                        client.post(urlString = "https://api.lissene.com/api/v2/auth/refresh") {
-                                contentType(ContentType.Application.Json)
-                                setBody(
-                                    RefreshRequest(
-                                        refreshToken = dataStoreManager.getRefreshToken().first()
-                                    )
+                        client.post(urlString = HttpRoutes.REFRESH) {
+                            contentType(ContentType.Application.Json)
+                            setBody(
+                                RefreshRequest(
+                                    refreshToken = dataStoreManager.getRefreshToken().first()
                                 )
-                            }
+                            )
+                        }
                     println("refreshTokenInfo bodyAsText ${response.bodyAsText()}")
 
                     if (response.status.isSuccess()) {

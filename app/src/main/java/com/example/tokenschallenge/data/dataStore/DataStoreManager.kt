@@ -18,7 +18,7 @@ const val USER_DATASTORE = "user_data"
 
 val Context.preferenceData: DataStore<Preferences> by preferencesDataStore(name = USER_DATASTORE)
 @Single
-class DataStoreManager(@Provided private val context: Context) {
+class DataStoreManager(private val context: Context) {
     companion object {
         val USER_ID = stringPreferencesKey("USER_ID")
         val USER_PHONE = stringPreferencesKey("USER_PHONE")
@@ -63,12 +63,12 @@ class DataStoreManager(@Provided private val context: Context) {
 
      fun getAccessToken()  =
         context.preferenceData.data.map {
-            it[ACCESS_TOKEN] ?: ""
+            it[ACCESS_TOKEN] ?:""
         }
 
     fun getRefreshToken()  =
         context.preferenceData.data.map {
-            it[REFRESH_TOKEN] ?: ""
+            it[REFRESH_TOKEN] ?:""
         }
 
 
@@ -81,6 +81,9 @@ class DataStoreManager(@Provided private val context: Context) {
     suspend fun clearDataStore() = context.preferenceData.edit {
         it.clear()
         it[IS_LOGGED_IN]=false
+    }
+    suspend fun loggedIn()=context.preferenceData.edit {
+        it[IS_LOGGED_IN]=true
     }
 
 }
