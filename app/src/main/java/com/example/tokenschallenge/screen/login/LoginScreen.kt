@@ -16,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,12 +28,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tokenschallenge.ui.theme.TokensChallengeTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun LoginScreen(
-    logInViewModel: LogInViewModel,
-    logIn:()->Unit
+    logInViewModel: LogInViewModel= koinViewModel(),
+    navigateToProfile:()->Unit
 ) {
     val logInUiState by logInViewModel.logInUiState.collectAsState()
 
@@ -45,6 +49,8 @@ fun LoginScreen(
 
     val focusRequester1 = remember { FocusRequester() }
     val focusRequester2 = remember { FocusRequester() }
+
+    val scope = rememberCoroutineScope()
 
     val focusManager = LocalFocusManager.current
     Column(
@@ -88,7 +94,13 @@ fun LoginScreen(
                             phone = phone,
                             password = password,
                         )
-                    logIn()
+                    scope.launch {
+                        delay(1000L)
+                        if (logInUiState.loggedIn) {
+                            navigateToProfile()
+                            println("login: ${logInUiState.loggedIn}")
+                        }
+                    }
                     }
 
             }, modifier = Modifier.padding(16.dp)

@@ -8,22 +8,20 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreen(
-    profileViewModel: ProfileViewModel, logOut: () -> Unit
+    profileViewModel: ProfileViewModel= koinViewModel(),
+    navigateToLogin: () -> Unit
 ) {
     val profileUiState by profileViewModel.profileUiState.collectAsState()
-    LaunchedEffect(Unit) {
-        profileViewModel.getProfile()
-    }
     Column {
         Text(
             text = "Hi, ${"\nWelcome to your Profile "}",
@@ -45,7 +43,10 @@ fun ProfileScreen(
             text = "Id: ${profileUiState.id}", style = MaterialTheme.typography.headlineSmall
         )
         Button(
-            onClick = { logOut() },
+            onClick = {
+                profileViewModel.onLogout()
+                navigateToLogin()
+                      },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme.colorScheme.primary)
         ) {

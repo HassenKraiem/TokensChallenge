@@ -33,12 +33,8 @@ class MainActivity : ComponentActivity() {
 
             TokensChallengeTheme {
                 val navController = rememberNavController()
-                // val dataStoreContext = LocalContext.current
-                // val dataStoreManager = DataStoreManager(dataStoreContext)
                 MainScreen(
-                    mainActivity = this@MainActivity,
                     navController = navController
-                    //dataStoreManager=dataStoreManager
                 )
             }
         }
